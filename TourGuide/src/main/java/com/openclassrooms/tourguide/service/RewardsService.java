@@ -1,6 +1,10 @@
 package com.openclassrooms.tourguide.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,7 @@ public class RewardsService {
 	private int attractionProximityRange = 200;
 	private final GpsUtil gpsUtil;
 	private final RewardCentral rewardsCentral;
+	private ExecutorService executorService = Executors.newFixedThreadPool(1000);
 	
 	public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
 		this.gpsUtil = gpsUtil;
@@ -35,20 +40,24 @@ public class RewardsService {
 	public void setDefaultProximityBuffer() {
 		proximityBuffer = defaultProximityBuffer;
 	}
-	
+
 	public void calculateRewards(User user) {
-		List<VisitedLocation> userLocations = user.getVisitedLocations();
+	//public CompletableFuture<User> calculateRewards(User user) {
+		List<VisitedLocation> userLocations = new ArrayList<>(user.getVisitedLocations());
 		List<Attraction> attractions = gpsUtil.getAttractions();
-		
+
 		for(VisitedLocation visitedLocation : userLocations) {
 			for(Attraction attraction : attractions) {
 				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
 					if(nearAttraction(visitedLocation, attraction)) {
-						user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
+						//user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
+						addUserRewards(user, visitedLocation, attraction);
 					}
 				}
 			}
 		}
+
+		//return CompletableFuture.completedFuture(user);
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
@@ -58,7 +67,14 @@ public class RewardsService {
 	private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
 		return getDistance(attraction, visitedLocation.location) > proximityBuffer ? false : true;
 	}
-	
+
+	private CompletableFuture<Void> addUserRewards(User user, VisitedLocation visitedLocation, Attraction attraction){
+		return CompletableFuture.supplyAsync(() -> {
+			return new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
+		}, executorService)
+				.thenAccept(rewardsCentral->{user.addUserReward(rewardsCentral);});
+
+	}
 	private int getRewardPoints(Attraction attraction, User user) {
 		return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
 	}

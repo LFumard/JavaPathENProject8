@@ -1,6 +1,8 @@
 package com.openclassrooms.tourguide.tracker;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +20,7 @@ public class Tracker extends Thread {
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 	private final TourGuideService tourGuideService;
 	private boolean stop = false;
+	//private final Map<User, Boolean> completedTrackingMap = new HashMap<>();
 
 	public Tracker(TourGuideService tourGuideService) {
 		this.tourGuideService = tourGuideService;
@@ -58,4 +61,7 @@ public class Tracker extends Thread {
 		}
 
 	}
+	/*public synchronized void finalizeTrack(User user) {
+		completedTrackingMap.put(user, true);
+	}*/
 }

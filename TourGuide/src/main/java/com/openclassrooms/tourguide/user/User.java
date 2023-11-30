@@ -70,7 +70,8 @@ public class User {
 	}
 	
 	public void addUserReward(UserReward userReward) {
-		if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+		//if(userRewards.stream().filter(!r -> r.attraction.attractionName.equals(userReward.attraction.attractionName)).count() == 0)
+		if(userRewards.stream().noneMatch(userReward1 -> userReward1.attraction.attractionName.equals(userReward.attraction.attractionName))){
 			userRewards.add(userReward);
 		}
 	}
@@ -88,7 +89,9 @@ public class User {
 	}
 
 	public VisitedLocation getLastVisitedLocation() {
-		return visitedLocations.get(visitedLocations.size() - 1);
+		if(visitedLocations.size() > 0)
+			return visitedLocations.get(visitedLocations.size() - 1);
+		return null;
 	}
 	
 	public void setTripDeals(List<Provider> tripDeals) {

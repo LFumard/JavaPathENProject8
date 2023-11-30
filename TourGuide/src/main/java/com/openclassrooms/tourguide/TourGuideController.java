@@ -30,6 +30,7 @@ public class TourGuideController {
     @RequestMapping("/getLocation") 
     public VisitedLocation getLocation(@RequestParam String userName) {
     	return tourGuideService.getUserLocation(getUser(userName));
+        //return getUser(userName).getugetLastVisitedLocation();
     }
     
     //  TODO: Change this method to no longer return a List of Attractions.

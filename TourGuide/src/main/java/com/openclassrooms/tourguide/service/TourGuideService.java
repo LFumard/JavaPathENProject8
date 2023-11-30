@@ -12,7 +12,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -40,7 +39,6 @@ public class TourGuideService {
 	public final Tracker tracker;
 	boolean testMode = true;
 	private ExecutorService executorService = Executors.newFixedThreadPool(10000);
-	static private int nbThread = 0;
 
 	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -63,8 +61,9 @@ public class TourGuideService {
 	}
 
 	public VisitedLocation getUserLocation(User user) {
-		VisitedLocation visitedLocation = user.getLastVisitedLocation();
-		return visitedLocation;
+		//VisitedLocation visitedLocation = user.getLastVisitedLocation();
+		//return visitedLocation;
+		return user.getLastVisitedLocation();
 	}
 
 	public User getUser(String userName) {

@@ -29,6 +29,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       env:
+        GITHUB_USERNAME: x-access-token
         GITHUB_TOKEN: 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
       run:
         mvn -B deploy --file pom.xml;

@@ -29,7 +29,6 @@ jobs:
         cache: maven
     - name: Build with Maven
       run:
-        mkdir ~/.m2;
         echo "<settings><servers><server><id>github</id><username>LFumard</username><password>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</password></server></servers></settings>" > ~/.m2/settings.xml;
         mvn -B deploy --file pom.xml;
 

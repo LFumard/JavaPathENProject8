@@ -16,6 +16,13 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub LFumard Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/LFumard/JavaPathENProject8</url>
+	</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

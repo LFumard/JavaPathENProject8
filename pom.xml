@@ -21,7 +21,7 @@
 			<id>github</id>
 			<name>GitHub LFumard Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/LFumard/JavaPathENProject8</url>
-	</repository>
+		</repository>
 	</distributionManagement>
 	<dependencies>
 		<dependency>

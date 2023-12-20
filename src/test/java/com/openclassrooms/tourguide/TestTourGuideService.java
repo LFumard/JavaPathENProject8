@@ -32,7 +32,7 @@ public class TestTourGuideService {
 		tourGuideService.trackUserLocation(user);
 
 		try {
-			TimeUnit.MILLISECONDS.sleep(1000);
+			TimeUnit.MILLISECONDS.sleep(100);
 		} catch (InterruptedException e) {}
 
 		VisitedLocation visitedLocation = user.getLastVisitedLocation();
@@ -96,7 +96,7 @@ public class TestTourGuideService {
 		//visitedLocation	= tourGuideService.getUserLocation(user);
 		while(user.getVisitedLocations().isEmpty()) {
 			try {
-				TimeUnit.MILLISECONDS.sleep(1000);
+				TimeUnit.MILLISECONDS.sleep(100);
 			} catch (InterruptedException e) {
 			}
 		}
@@ -118,7 +118,7 @@ public class TestTourGuideService {
 
 		while(user.getVisitedLocations().isEmpty()) {
 			try {
-				TimeUnit.MILLISECONDS.sleep(1000);
+				TimeUnit.MILLISECONDS.sleep(100);
 			} catch (InterruptedException e) {
 			}
 		}

@@ -72,7 +72,7 @@ public class TestPerformance {
 		for(User user : allUsers) {
 			while (user.getVisitedLocations().size()< 5) {
 				try {
-					TimeUnit.MILLISECONDS.sleep(200);
+					TimeUnit.MILLISECONDS.sleep(100);
 				}
 				catch (InterruptedException e) {}
 			}
@@ -125,17 +125,16 @@ public class TestPerformance {
 				}
 		}
 
-
-		for (User user : allUsers) {
-			assertTrue(user.getUserRewards().size() > 0);
-		}
-
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
 
 		System.out.println("highVolumeGetRewards: Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime())
 				+ " seconds.");
 		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+
+		for (User user : allUsers) {
+			assertTrue(user.getUserRewards().size() > 0);
+		}
 	}
 
 	/*private static class TrackUserLocationTestResult {

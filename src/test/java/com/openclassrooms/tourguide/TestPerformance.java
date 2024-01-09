@@ -117,6 +117,7 @@ public class TestPerformance {
 		allUsers.forEach(u -> rewardsService.calculateRewards(u));
 
 
+
 		for(User user : allUsers) {
 			while ((user.getUserRewards().isEmpty()))
 				try {

@@ -114,8 +114,8 @@ public class TestPerformance {
 		allUsers = tourGuideService.getAllUsers();
 		allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 
-
 		allUsers.forEach(u -> rewardsService.calculateRewards(u));
+
 
 		for(User user : allUsers) {
 			while ((user.getUserRewards().isEmpty()))

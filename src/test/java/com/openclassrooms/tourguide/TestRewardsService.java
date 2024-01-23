@@ -37,7 +37,7 @@ public class TestRewardsService {
 		List<UserReward> userRewards = user.getUserRewards();
 
 		try {
-			TimeUnit.MILLISECONDS.sleep(1000);
+			TimeUnit.MILLISECONDS.sleep(5000);
 		} catch (InterruptedException e) {}
 
 		tourGuideService.tracker.stopTracking();

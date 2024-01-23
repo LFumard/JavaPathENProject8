@@ -110,9 +110,8 @@ public class TestPerformance {
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
 		Attraction attraction = gpsUtil.getAttractions().get(0);
-		//List<User> allUsers; // = new ArrayList<>();
-		List<User> allUsers;
-		allUsers = new ArrayList<>();
+		List<User> allUsers; // = new ArrayList<>();
+		//List<User> allUsers = new ArrayList<>();
 		allUsers = tourGuideService.getAllUsers();
 		allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 

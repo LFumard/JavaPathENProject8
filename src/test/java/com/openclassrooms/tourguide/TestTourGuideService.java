@@ -32,7 +32,7 @@ public class TestTourGuideService {
 		tourGuideService.trackUserLocation(user);
 
 		try {
-			TimeUnit.MILLISECONDS.sleep(1000);
+			TimeUnit.MILLISECONDS.sleep(5000);
 		} catch (InterruptedException e) {}
 
 		VisitedLocation visitedLocation = user.getLastVisitedLocation();

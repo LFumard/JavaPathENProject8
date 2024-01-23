@@ -38,7 +38,7 @@ public class TourGuideService {
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
-	private ExecutorService executorService = Executors.newFixedThreadPool(10000);
+	private ExecutorService executorService = Executors.newFixedThreadPool(1000);
 	//int numThreads = Runtime.getRuntime().availableProcessors();
 	//private ExecutorService executorService = Executors.newFixedThreadPool(numThreads * 2);
 

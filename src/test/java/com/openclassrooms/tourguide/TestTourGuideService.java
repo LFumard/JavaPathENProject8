@@ -32,7 +32,7 @@ public class TestTourGuideService {
 		tourGuideService.trackUserLocation(user);
 
 		try {
-			TimeUnit.MILLISECONDS.sleep(5000);
+			TimeUnit.MILLISECONDS.sleep(200);
 		} catch (InterruptedException e) {}
 
 		VisitedLocation visitedLocation = user.getLastVisitedLocation();
@@ -92,8 +92,6 @@ public class TestTourGuideService {
 
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		tourGuideService.trackUserLocation(user);
-		//VisitedLocation visitedLocation;
-		//visitedLocation	= tourGuideService.getUserLocation(user);
 		while(user.getVisitedLocations().isEmpty()) {
 			try {
 				TimeUnit.MILLISECONDS.sleep(100);
@@ -101,11 +99,9 @@ public class TestTourGuideService {
 			}
 		}
 		tourGuideService.tracker.stopTracking();
-
 		assertEquals(user.getUserId(), user.getVisitedLocations().get(0).userId);
 	}
 
-	//@Disabled // Not yet implemented
 	@Test
 	public void getNearbyAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -124,9 +120,7 @@ public class TestTourGuideService {
 		}
 
 		List<Attraction> attractions = tourGuideService.getNearByAttractions(user.getLastVisitedLocation());
-
 		tourGuideService.tracker.stopTracking();
-
 		assertEquals(5, attractions.size());
 	}
 
@@ -139,9 +133,7 @@ public class TestTourGuideService {
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 
 		List<Provider> providers = tourGuideService.getTripDeals(user);
-
 		tourGuideService.tracker.stopTracking();
-
 		assertEquals(10, providers.size());
 	}
 

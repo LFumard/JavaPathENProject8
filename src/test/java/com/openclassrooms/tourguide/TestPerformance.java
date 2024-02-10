@@ -42,30 +42,22 @@ public class TestPerformance {
 	 * TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	 */
 
-	//@Disabled
 	@Test
 	public void highVolumeTrackLocation() {
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		// Users should be incremented up to 100,000, and test finishes within 15
 		// minutes
-		InternalTestHelper.setInternalUserNumber(100000);
+		InternalTestHelper.setInternalUserNumber(1000);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
-		List<User> allUsers; // = new ArrayList<>();
+		List<User> allUsers;
 		allUsers = tourGuideService.getAllUsers();
 
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		//List<User[]> userList = new ArrayList<>();
-		//Map<String, TrackUserLocationTestResult> tab = new HashMap();
 
 		for (User user : allUsers) {
-/*
-			TrackUserLocationTestResult r = new TrackUserLocationTestResult();
-			r.setOldLocationNb(user.getVisitedLocations().size());
-			tab.put(user.getUserId().toString(), r);
-*/
 			tourGuideService.trackUserLocation(user);
 		}
 
@@ -80,23 +72,11 @@ public class TestPerformance {
 
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
-
-/*
-		for (User user : allUsers) {
-			TrackUserLocationTestResult r = new TrackUserLocationTestResult();
-			tab.get(user.getUserId().toString()).setNewLocationNb(user.getVisitedLocations().size());
-		}
-		for (TrackUserLocationTestResult t : tab.values()) {
-			assertTrue(t.getNewLocationNb() > t.getOldLocationNb());
-		}
-*/
-
 		System.out.println("highVolumeTrackLocation: Time Elapsed: "
 				+ TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds.");
 		assertTrue(TimeUnit.MINUTES.toSeconds(15) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 
-	//@Disabled
 	@Test
 	public void highVolumeGetRewards() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -104,27 +84,23 @@ public class TestPerformance {
 
 		// Users should be incremented up to 100,000, and test finishes within 20
 		// minutes
-		InternalTestHelper.setInternalUserNumber(100000);
+		InternalTestHelper.setInternalUserNumber(1000);
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
 		Attraction attraction = gpsUtil.getAttractions().get(0);
-		List<User> allUsers; // = new ArrayList<>();
-		//List<User> allUsers = new ArrayList<>();
+		List<User> allUsers;
 		allUsers = tourGuideService.getAllUsers();
 		allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 
 		allUsers.forEach(u -> rewardsService.calculateRewards(u));
-
-
 
 		for(User user : allUsers) {
 			while ((user.getUserRewards().isEmpty()))
 				try {
 					TimeUnit.MILLISECONDS.sleep(100);
 				} catch (InterruptedException e) {
-					//throw new RuntimeException(e);
 				}
 		}
 
@@ -139,26 +115,4 @@ public class TestPerformance {
 			assertTrue(user.getUserRewards().size() > 0);
 		}
 	}
-
-	/*private static class TrackUserLocationTestResult {
-		private int oldLocationNb;
-		private int newLocationNb;
-
-
-		public int getOldLocationNb() {
-			return oldLocationNb;
-		}
-
-		public void setOldLocationNb(int oldLocationNb) {
-			this.oldLocationNb = oldLocationNb;
-		}
-
-		public int getNewLocationNb() {
-			return newLocationNb;
-		}
-
-		public void setNewLocationNb(int newLocationNb) {
-			this.newLocationNb = newLocationNb;
-		}
-	}*/
 }

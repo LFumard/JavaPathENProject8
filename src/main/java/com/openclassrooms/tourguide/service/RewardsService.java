@@ -46,22 +46,17 @@ public class RewardsService {
 	}
 
 	public void calculateRewards(User user) {
-	//public CompletableFuture<User> calculateRewards(User user) {
 		List<VisitedLocation> userLocations = new ArrayList<>(user.getVisitedLocations());
-		//List<Attraction> attractions = gpsUtil.getAttractions();
 
 		for(VisitedLocation visitedLocation : userLocations) {
 			for(Attraction attraction : attractions) {
 				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
 					if(nearAttraction(visitedLocation, attraction)) {
-						//user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
-						addUserRewards(user, visitedLocation, attraction);
+						addUserRewardsMultiThread(user, visitedLocation, attraction);
 					}
 				}
 			}
 		}
-
-		//return CompletableFuture.completedFuture(user);
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
@@ -72,11 +67,11 @@ public class RewardsService {
 		return getDistance(attraction, visitedLocation.location) > proximityBuffer ? false : true;
 	}
 
-	private CompletableFuture<Void> addUserRewards(User user, VisitedLocation visitedLocation, Attraction attraction){
+	private CompletableFuture<Void> addUserRewardsMultiThread(User user, VisitedLocation visitedLocation, Attraction attraction){
 		return CompletableFuture.supplyAsync(() -> {
 			return new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
 		}, executorService)
-				.thenAccept(rewardsCentral->{user.addUserReward(rewardsCentral);});
+				.thenAccept(rewardsCentral->{user.addUserRewardEndThread(rewardsCentral);});
 
 	}
 	private int getRewardPoints(Attraction attraction, User user) {

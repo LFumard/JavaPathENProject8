@@ -56,7 +56,8 @@ public class TourGuideController {
     public List<Provider> getTripDeals(@RequestParam String userName) {
     	return tourGuideService.getTripDeals(getUser(userName));
     }
-    
+
+
     private User getUser(String userName) {
     	return tourGuideService.getUser(userName);
     }
